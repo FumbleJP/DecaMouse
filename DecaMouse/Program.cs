@@ -18,7 +18,7 @@ namespace DecaMouse
 			//Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-US");
 #endif
 			// ユーザー単位のミューテックス（Local\）
-			const string mutexName = "Local\\DecaMouseAppLocker";
+			const string mutexName = "Local\\FumbleWarez.DecaMouse.AppLocker";
 			using (var mutex = new Mutex(true, mutexName, out var createdNew))
 			{
 				if (!createdNew)
