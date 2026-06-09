@@ -4,7 +4,7 @@
 
 #define MyAppName "DecaMouse"
 #define MyAppMutex "Local\FumbleWarez.DecaMouse.AppLocker"
-#define MyAppVersion "1.0"
+#define MyAppVersion "1.1"
 #define MyAppPublisher "Fumble Warez"
 #define MyAppURL "https://github.com/FumbleJP/DecaMouse"
 #define MyAppExeName "DecaMouse.exe"

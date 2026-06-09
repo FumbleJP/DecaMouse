@@ -40,6 +40,11 @@ namespace DecaMouse
 		#endregion
 
 		/// <summary>
+		/// マウスポインターサイズの最小
+		/// </summary>
+		private const int MinDecaMouse = 32;
+
+		/// <summary>
 		/// マウスポインターサイズの最大
 		/// </summary>
 		private const int MaxDecaMouse = 256;
@@ -117,6 +122,11 @@ namespace DecaMouse
 		private int _noShakeY = 0;
 
 		/// <summary>
+		/// 最初のマウスポインターサイズ
+		/// </summary>
+		private int _initialCursorSize = 0;
+
+		/// <summary>
 		/// 変更前のマウスポインターサイズ
 		/// </summary>
 		private int _originalCursorSize = 0;
@@ -181,13 +191,22 @@ namespace DecaMouse
 				case ApplicationSettings.Actions.MoveToCenter:
 					_radCenterMouseY.Checked = true; break;
 			}
-			_tbCooldownX.Value = _shakeDetectorX.Cooldown = _settings.CooldownX;
+			_tbCooldownX.Value = _settings.CooldownX;
 			_tbDistanceX.Value = _shakeDetectorX.Deadzone = _settings.DeadzoneX;
 			_tbDirectionChangeX.Value = _shakeDetectorX.DirectionChanges = _settings.DirectionChangesX;
-			_tbCooldownY.Value = _shakeDetectorY.Cooldown = _settings.CooldownY;
+			_shakeDetectorX.Cooldown = _tbCooldownX.Value + _tbDirectionChangeX.Value;
+
+			_tbCooldownY.Value = _settings.CooldownY;
 			_tbDistanceY.Value = _shakeDetectorY.Deadzone = _settings.DeadzoneY;
 			_tbDirectionChangeY.Value = _shakeDetectorY.DirectionChanges = _settings.DirectionChangesY;
-			_tbIncrease.Value = _settings.IncreasePointerSize;
+			_shakeDetectorY.Cooldown = _tbCooldownY.Value + _tbDirectionChangeY.Value;
+
+			_chkIgnoreButtonHeld.Checked = _settings.IgnoreMouseButtonHeld;
+
+			_chkGraduallyEnlarge.Checked = _settings.GraduallyIncreasePointerSize;
+			_tbGraduallyEnlarge.Value = _settings.IncreasePointerSize;
+			_chkGraduallyShirink.Checked = _settings.GraduallyDecreasePointerSize;
+			_tbGraduallyShirink.Value = _settings.DecreasePointerSize;
 
 			_chkAutoExec.Checked = IsRegisteredStartup();
 
@@ -304,13 +323,21 @@ namespace DecaMouse
 			Marshal.FreeHGlobal(_valueBuffer);
 			GetActionsFromFormX();
 			GetActionsFromFormY();
+
 			_settings.CooldownX = _tbCooldownX.Value;
 			_settings.DeadzoneX = _tbDistanceX.Value;
 			_settings.DirectionChangesX = _tbDirectionChangeX.Value;
 			_settings.CooldownY = _tbCooldownY.Value;
 			_settings.DeadzoneY = _tbDistanceY.Value;
 			_settings.DirectionChangesY = _tbDirectionChangeY.Value;
-			_settings.IncreasePointerSize = _tbIncrease.Value;
+
+			_settings.IgnoreMouseButtonHeld = _chkIgnoreButtonHeld.Checked;
+
+			_settings.GraduallyIncreasePointerSize = _chkGraduallyEnlarge.Checked;
+			_settings.IncreasePointerSize = _tbGraduallyEnlarge.Value;
+			_settings.GraduallyDecreasePointerSize = _chkGraduallyShirink.Checked;
+			_settings.DecreasePointerSize = _tbGraduallyShirink.Value;
+
 			_settings.Save(_pathSettings);
 		}
 
@@ -323,7 +350,13 @@ namespace DecaMouse
 			if (!SystemParametersInfo(SPI_GETMOUSECURSORSIZE, 0, _valueBuffer, 0))
 				return;
 			var currentSize = Marshal.ReadInt32(_valueBuffer);
+			// 取ったサイズが不正値なら初期サイズに、初期サイズの取得時に不正なら最小値に設定する
+			if (currentSize < MinDecaMouse || MaxDecaMouse < currentSize)
+				currentSize = _initialCursorSize != 0 ? _initialCursorSize : MinDecaMouse;
 			// 初期サイズを取得していないならば保存しておく
+			if (_initialCursorSize == 0)
+				_initialCursorSize = currentSize;
+			// 変更前サイズを保存しておく
 			if (_originalCursorSize == 0)
 				_currentCursorSize = _originalCursorSize = currentSize;
 			// 自分以外がサイズ変更を行っている場合、そのサイズを初期サイズとする
@@ -331,16 +364,53 @@ namespace DecaMouse
 				_originalCursorSize = currentSize;
 			_currentCursorSize = currentSize + increase;
 			// 下限
-			if (_currentCursorSize < 0)
-				_currentCursorSize = 0;
+			if (_currentCursorSize < MinDecaMouse)
+				_currentCursorSize = MinDecaMouse;
 			// 上限
 			if (MaxDecaMouse < _currentCursorSize)
 				_currentCursorSize = MaxDecaMouse;
 			// 既に上限で変える必要はない？
 			if (currentSize == _currentCursorSize)
 				return;
-			Marshal.WriteInt32(_valueBuffer, 0, _currentCursorSize);
-			_ = SystemParametersInfo(SPI_SETMOUSECURSORSIZE, 0, Marshal.ReadIntPtr(_valueBuffer), SPIF_SENDCHANGE);
+			_ = SystemParametersInfo(SPI_SETMOUSECURSORSIZE, 0, new IntPtr(_currentCursorSize), SPIF_SENDCHANGE);
+		}
+
+		/// <summary>
+		/// マウスのサイズ変更
+		/// </summary>
+		/// <param name="decrease"></param>
+		private void RestoreMouse(int decrease)
+		{
+			if (_originalCursorSize == 0)
+				return;
+			if (_currentCursorSize <= _originalCursorSize)
+			{
+				_originalCursorSize = _currentCursorSize = 0;
+				return;
+			}
+			if (!SystemParametersInfo(SPI_GETMOUSECURSORSIZE, 0, _valueBuffer, 0))
+				return;
+			var currentSize = Marshal.ReadInt32(_valueBuffer);
+			// 自分以外がサイズ変更を行っている場合、戻し操作をやめる
+			if (_currentCursorSize != currentSize)
+			{
+				_originalCursorSize = _currentCursorSize = 0;
+				return;
+			}
+			_currentCursorSize = currentSize - decrease;
+			// 下限
+			if (_currentCursorSize < _originalCursorSize)
+				_currentCursorSize = _originalCursorSize;
+			// 上限
+			if (MaxDecaMouse < _currentCursorSize)
+				_currentCursorSize = MaxDecaMouse;
+			// 既に戻しきってるなら変える必要はない？
+			if (currentSize == _currentCursorSize)
+			{
+				_originalCursorSize = _currentCursorSize = 0;
+				return;
+			}
+			_ = SystemParametersInfo(SPI_SETMOUSECURSORSIZE, 0, new IntPtr(_currentCursorSize), SPIF_SENDCHANGE);
 		}
 
 		/// <summary>
@@ -348,22 +418,26 @@ namespace DecaMouse
 		/// </summary>
 		private void RestoreMouse()
 		{
-			try
+			if (_originalCursorSize == 0)
+				return;
+			if (!_chkGraduallyShirink.Checked)
 			{
+				// 一気に戻す
 				if (!SystemParametersInfo(SPI_GETMOUSECURSORSIZE, 0, _valueBuffer, 0))
 					return;
 				var currentSize = Marshal.ReadInt32(_valueBuffer);
-				// 初期サイズを取得していない、自分が設定したサイズでない場合は戻さない
-				if (_originalCursorSize == 0 || currentSize == _originalCursorSize || currentSize != _currentCursorSize)
+				// 自分が設定したサイズでない場合は戻さない
+				if (currentSize == _originalCursorSize || currentSize != _currentCursorSize)
 					return;
 				// 初期サイズに戻す
-				Marshal.WriteInt32(_valueBuffer, 0, _originalCursorSize);
-				_ = SystemParametersInfo(SPI_SETMOUSECURSORSIZE, 0, Marshal.ReadIntPtr(_valueBuffer), SPIF_SENDCHANGE);
-			}
-			finally
-			{
+				_ = SystemParametersInfo(SPI_SETMOUSECURSORSIZE, 0, new IntPtr(_originalCursorSize), SPIF_SENDCHANGE);
 				// 初期状態に戻す
 				_originalCursorSize = _currentCursorSize = 0;
+			}
+			else
+			{
+				// じわじわ戻す
+				RestoreMouse(_tbGraduallyShirink.Value);
 			}
 		}
 
@@ -429,9 +503,9 @@ namespace DecaMouse
 		private void _chkAutoExec_Click(object sender, EventArgs e)
 		{
 			if (!_chkAutoExec.Checked)
-				RegisterStartup(Application.ExecutablePath);
+				_ = RegisterStartup(Application.ExecutablePath);
 			else
-				UnregisterStartup();
+				_ = UnregisterStartup();
 			_chkAutoExec.Checked = IsRegisteredStartup();
 		}
 
@@ -448,7 +522,7 @@ namespace DecaMouse
 				switch (action)
 				{
 					case ApplicationSettings.Actions.IncreasePointerSize:
-						BigMouse(_tbIncrease.Value);
+						BigMouse(_chkGraduallyEnlarge.Checked ? _tbGraduallyEnlarge.Value : MaxDecaMouse);
 						return false;
 					case ApplicationSettings.Actions.MoveToCenter:
 						Cursor.Position = new Point(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
@@ -515,6 +589,16 @@ namespace DecaMouse
 		}
 
 		/// <summary>
+		/// UIを表示する
+		/// </summary>
+		private void ShowUI()
+		{
+			Visible = true;
+			TopMost = true;
+			TopMost = false;
+		}
+
+		/// <summary>
 		/// UIからの設定変更イベントハンドラー。
 		/// </summary>
 		/// <param name="sender">イベントの送信元</param>
@@ -573,14 +657,14 @@ namespace DecaMouse
 		/// </summary>
 		/// <param name="sender">イベントの送信元</param>
 		/// <param name="e">イベントデータ</param>
-		private void _niTray_DoubleClick(object sender, EventArgs e) => Visible = true;
+		private void _niTray_DoubleClick(object sender, EventArgs e) => ShowUI();
 
 		/// <summary>
 		/// 設定メニューのクリックイベントハンドラー。
 		/// </summary>
 		/// <param name="sender">イベントの送信元</param>
 		/// <param name="e">イベントデータ</param>
-		private void _tsmiSettings_Click(object sender, EventArgs e) => Visible = true;
+		private void _tsmiSettings_Click(object sender, EventArgs e) => ShowUI();
 
 		/// <summary>
 		/// 終了メニューのクリックイベントハンドラー。
@@ -634,5 +718,27 @@ namespace DecaMouse
 		/// <param name="sender">イベントの送信元</param>
 		/// <param name="e">イベントデータ</param>
 		private void _radNoneY_CheckedChanged(object sender, EventArgs e) => GetActionsFromFormY();
+
+		/// <summary>
+		/// UIからの設定変更イベントハンドラー。
+		/// </summary>
+		/// <param name="sender">イベントの送信元</param>
+		/// <param name="e">イベントデータ</param>
+		private void _chkGraduallyEnlarge_CheckedChanged(object sender, EventArgs e) => _pnlGraduallyEnlarge.Enabled = _chkGraduallyEnlarge.Checked;
+
+		/// <summary>
+		/// UIからの設定変更イベントハンドラー。
+		/// </summary>
+		/// <param name="sender">イベントの送信元</param>
+		/// <param name="e">イベントデータ</param>
+		private void _chkGraduallyShirink_CheckedChanged(object sender, EventArgs e) => _pnlGraduallyShirink.Enabled = _chkGraduallyShirink.Checked;
+
+		/// <summary>
+		/// UIからの設定変更イベントハンドラー。
+		/// </summary>
+		/// <param name="sender">イベントの送信元</param>
+		/// <param name="e">イベントデータ</param>
+		private void _chkIgnoreButtonHeld_CheckedChanged(object sender, EventArgs e) =>
+			_shakeDetectorX.IgnoreMouseButtonHeld = _settings.IgnoreMouseButtonHeld = _chkIgnoreButtonHeld.Checked;
 	}
 }

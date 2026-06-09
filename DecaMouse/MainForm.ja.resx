@@ -120,37 +120,10 @@
   <data name="_tpSettingsX.Text" xml:space="preserve">
     <value>横振り</value>
   </data>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="_radBigMouseY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>139, 16</value>
-  </data>
-  <data name="_radBigMouseY.Text" xml:space="preserve">
-    <value>ポインターを大きくする(&amp;E)</value>
-  </data>
-  <data name="_radCenterMouseY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 16</value>
-  </data>
-  <data name="_radCenterMouseY.Text" xml:space="preserve">
-    <value>ポインターを中央に移動する(&amp;M)</value>
-  </data>
-  <data name="_radNoneY.Size" type="System.Drawing.Size, System.Drawing">
-    <value>89, 16</value>
-  </data>
-  <data name="_radNoneY.Text" xml:space="preserve">
-    <value>何もしない(&amp;N)</value>
-  </data>
-  <data name="_grpActionY.Text" xml:space="preserve">
-    <value>ポインターを縦に振ったときの動作</value>
-  </data>
-  <data name="_grpSettingsY.Text" xml:space="preserve">
-    <value>振り判定調整</value>
-  </data>
-  <data name="tpSettingsY.Text" xml:space="preserve">
-    <value>縦振り</value>
-  </data>
   <data name="_grpActionX.Text" xml:space="preserve">
     <value>ポインターを横に振ったときの動作</value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="_radBigMouseX.Size" type="System.Drawing.Size, System.Drawing">
     <value>139, 16</value>
   </data>
@@ -208,6 +181,33 @@
   <data name="_lblDirectionChangeXR.Text" xml:space="preserve">
     <value>多</value>
   </data>
+  <data name="tpSettingsY.Text" xml:space="preserve">
+    <value>縦振り</value>
+  </data>
+  <data name="_grpActionY.Text" xml:space="preserve">
+    <value>ポインターを縦に振ったときの動作</value>
+  </data>
+  <data name="_radBigMouseY.Size" type="System.Drawing.Size, System.Drawing">
+    <value>139, 16</value>
+  </data>
+  <data name="_radBigMouseY.Text" xml:space="preserve">
+    <value>ポインターを大きくする(&amp;E)</value>
+  </data>
+  <data name="_radCenterMouseY.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 16</value>
+  </data>
+  <data name="_radCenterMouseY.Text" xml:space="preserve">
+    <value>ポインターを中央に移動する(&amp;M)</value>
+  </data>
+  <data name="_radNoneY.Size" type="System.Drawing.Size, System.Drawing">
+    <value>89, 16</value>
+  </data>
+  <data name="_radNoneY.Text" xml:space="preserve">
+    <value>何もしない(&amp;N)</value>
+  </data>
+  <data name="_grpSettingsY.Text" xml:space="preserve">
+    <value>振り判定調整</value>
+  </data>
   <data name="_lblCooldownY.Size" type="System.Drawing.Size, System.Drawing">
     <value>162, 12</value>
   </data>
@@ -244,16 +244,10 @@
   <data name="_lblDirectionChangeYR.Text" xml:space="preserve">
     <value>多</value>
   </data>
-  <data name="_lblBigMouse.Size" type="System.Drawing.Size, System.Drawing">
-    <value>126, 12</value>
-  </data>
-  <data name="_lblBigMouse.Text" xml:space="preserve">
-    <value>マウスを大きくする速度(&amp;S)</value>
-  </data>
-  <data name="_lblBigMouseL.Text" xml:space="preserve">
+  <data name="_lblGraduallyEnlargeL.Text" xml:space="preserve">
     <value>緩</value>
   </data>
-  <data name="_lblBigMouseR.Text" xml:space="preserve">
+  <data name="_lblGraduallyEnlargeR.Text" xml:space="preserve">
     <value>急</value>
   </data>
   <data name="_lblCheckX.Size" type="System.Drawing.Size, System.Drawing">
@@ -274,8 +268,36 @@
   <data name="_lblApplicationTitle.Text" xml:space="preserve">
     <value>でかマウス(DecaMouse)</value>
   </data>
+  <data name="_chkIgnoreButtonHeld.Size" type="System.Drawing.Size, System.Drawing">
+    <value>156, 16</value>
+  </data>
+  <data name="_chkIgnoreButtonHeld.Text" xml:space="preserve">
+    <value>ボタン押下中は無視する(&amp;H)</value>
+  </data>
+  <data name="_chkGraduallyEnlarge.Size" type="System.Drawing.Size, System.Drawing">
+    <value>183, 16</value>
+  </data>
+  <data name="_chkGraduallyEnlarge.Text" xml:space="preserve">
+    <value>大きくする際、徐々に大きくする(&amp;L)</value>
+  </data>
+  <data name="_chkGraduallyShirink.Size" type="System.Drawing.Size, System.Drawing">
+    <value>180, 16</value>
+  </data>
+  <data name="_chkGraduallyShirink.Text" xml:space="preserve">
+    <value>元に戻す際、徐々に小さくする(&amp;S)</value>
+  </data>
+  <assembly alias="mscorlib" name="mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="_pnlGraduallyShirink.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
   <data name="_grpMouseSettings.Text" xml:space="preserve">
     <value>でか設定</value>
+  </data>
+  <data name="_lblGraduallyShirinkL.Text" xml:space="preserve">
+    <value>緩</value>
+  </data>
+  <data name="_lblGraduallyShirinkR.Text" xml:space="preserve">
+    <value>急</value>
   </data>
   <data name="_chkAutoExec.Size" type="System.Drawing.Size, System.Drawing">
     <value>218, 16</value>
@@ -2434,7 +2456,7 @@
     <value>112, 22</value>
   </data>
   <data name="_tsmiExit.Text" xml:space="preserve">
-    <value>終了'&amp;E)</value>
+    <value>終了(&amp;E)</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>

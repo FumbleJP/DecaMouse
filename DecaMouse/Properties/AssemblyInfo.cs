@@ -22,5 +22,5 @@ using System.Runtime.InteropServices;
 [assembly: Guid("147906c1-bf97-46f3-a89d-2662f3ceaf9f")]
 
 // アセンブリのバージョン情報は、以下の 4 つの値で構成されてい
-[assembly: AssemblyVersion("1.0.1.0")]
-[assembly: AssemblyFileVersion("1.0.1.0")]
+[assembly: AssemblyVersion("1.1.2.0")]
+[assembly: AssemblyFileVersion("1.1.2.0")]

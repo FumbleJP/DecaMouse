@@ -63,7 +63,7 @@ namespace DecaMouse
 		/// <summary>
 		/// 反転回数X
 		/// </summary>
-		public int DirectionChangesX { get; set; } = 3;
+		public int DirectionChangesX { get; set; } = 5;
 
 		/// <summary>
 		/// 反転回数Y
@@ -71,9 +71,29 @@ namespace DecaMouse
 		public int DirectionChangesY { get; set; } = 5;
 
 		/// <summary>
+		/// マウスボタンが押されているときは無視する
+		/// </summary>
+		public bool IgnoreMouseButtonHeld { get; set; } = true;
+
+		/// <summary>
+		/// ポインター拡大時にじわじわ大きくなる
+		/// </summary>
+		public bool GraduallyIncreasePointerSize { get; set; } = false;
+
+		/// <summary>
 		/// ポインターサイズ増加量
 		/// </summary>
 		public int IncreasePointerSize { get; set; } = 16;
+
+		/// <summary>
+		/// ポインター縮小時にじわじわ小さくなる
+		/// </summary>
+		public bool GraduallyDecreasePointerSize { get; set; } = false;
+
+		/// <summary>
+		/// ポインターサイズ減少量
+		/// </summary>
+		public int DecreasePointerSize { get; set; } = 16;
 
 		/// <summary>
 		/// 読み込み
@@ -107,8 +127,8 @@ namespace DecaMouse
 			var serializer = new XmlSerializer(typeof(ApplicationSettings));
 			try
 			{
-				Directory.CreateDirectory(Path.GetDirectoryName(path));
-				using (var stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.ReadWrite))
+				_ = Directory.CreateDirectory(Path.GetDirectoryName(path));
+				using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.ReadWrite))
 				using (var writer = new StreamWriter(stream, Encoding.UTF8))
 					serializer.Serialize(writer, this);
 			}

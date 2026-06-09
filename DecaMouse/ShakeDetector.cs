@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace DecaMouse
 {
@@ -46,6 +47,11 @@ namespace DecaMouse
 		/// Cooldown回のサンプリング周期中にこの設定回数以上方向転換があれば振っていると判定
 		/// </remarks>
 		public int DirectionChanges { get; set; }
+
+		/// <summary>
+		/// マウスボタンが押されているときは無視するかどうか
+		/// </summary>
+		public bool IgnoreMouseButtonHeld { get; set; }
 
 		/// <summary>
 		/// 方向転換のバッファ
@@ -106,7 +112,9 @@ namespace DecaMouse
 			// 前回の移動量と符号が異なっている場合は方向転換とみなす
 			// _lastDirection == Int32.MinValueの場合は初回サンプリングなので方向転換とみなさない
 			var directionChange = _lastDirection != Int32.MinValue && ((delta < 0 && 0 < _lastDirection) || (0 < delta && _lastDirection < 0));
-			AddDirectionChange(directionChange);
+			// マウスボタンが押されているときは方向転換の情報を追加しない
+			if (!IgnoreMouseButtonHeld || Control.MouseButtons == MouseButtons.None)
+				AddDirectionChange(directionChange);
 			if (delta != 0 || _lastDirection == Int32.MinValue)
 				_lastDirection = delta;
 			_lastPosition = currentPosition;

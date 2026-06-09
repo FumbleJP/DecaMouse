@@ -68,10 +68,9 @@
 			this._lblDirectionChangeYL = new System.Windows.Forms.Label();
 			this._tbDirectionChangeY = new System.Windows.Forms.TrackBar();
 			this._lblDirectionChangeYR = new System.Windows.Forms.Label();
-			this._tbIncrease = new System.Windows.Forms.TrackBar();
-			this._lblBigMouse = new System.Windows.Forms.Label();
-			this._lblBigMouseL = new System.Windows.Forms.Label();
-			this._lblBigMouseR = new System.Windows.Forms.Label();
+			this._tbGraduallyEnlarge = new System.Windows.Forms.TrackBar();
+			this._lblGraduallyEnlargeL = new System.Windows.Forms.Label();
+			this._lblGraduallyEnlargeR = new System.Windows.Forms.Label();
 			this._lblCheckX = new System.Windows.Forms.Label();
 			this._lblCheckY = new System.Windows.Forms.Label();
 			this._lblValueX = new System.Windows.Forms.Label();
@@ -80,6 +79,14 @@
 			this._lblApplicationVersion = new System.Windows.Forms.Label();
 			this._lblApplicationCopyright = new System.Windows.Forms.Label();
 			this._grpMouseSettings = new System.Windows.Forms.GroupBox();
+			this._pnlGraduallyEnlarge = new System.Windows.Forms.Panel();
+			this._chkIgnoreButtonHeld = new System.Windows.Forms.CheckBox();
+			this._chkGraduallyEnlarge = new System.Windows.Forms.CheckBox();
+			this._chkGraduallyShirink = new System.Windows.Forms.CheckBox();
+			this._pnlGraduallyShirink = new System.Windows.Forms.Panel();
+			this._lblGraduallyShirinkL = new System.Windows.Forms.Label();
+			this._tbGraduallyShirink = new System.Windows.Forms.TrackBar();
+			this._lblGraduallyShirinkR = new System.Windows.Forms.Label();
 			this._chkAutoExec = new System.Windows.Forms.CheckBox();
 			this._niTray = new System.Windows.Forms.NotifyIcon(this.components);
 			this._cmsTray = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -99,8 +106,11 @@
 			((System.ComponentModel.ISupportInitialize)(this._tbCooldownY)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._tbDistanceY)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this._tbDirectionChangeY)).BeginInit();
-			((System.ComponentModel.ISupportInitialize)(this._tbIncrease)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this._tbGraduallyEnlarge)).BeginInit();
 			this._grpMouseSettings.SuspendLayout();
+			this._pnlGraduallyEnlarge.SuspendLayout();
+			this._pnlGraduallyShirink.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this._tbGraduallyShirink)).BeginInit();
 			this._cmsTray.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -145,26 +155,26 @@
 			// 
 			// _tcSettings
 			// 
-			resources.ApplyResources(this._tcSettings, "_tcSettings");
 			this._tcSettings.Controls.Add(this._tpSettingsX);
 			this._tcSettings.Controls.Add(this.tpSettingsY);
+			resources.ApplyResources(this._tcSettings, "_tcSettings");
 			this._tcSettings.Name = "_tcSettings";
 			this._tcSettings.SelectedIndex = 0;
 			// 
 			// _tpSettingsX
 			// 
-			resources.ApplyResources(this._tpSettingsX, "_tpSettingsX");
 			this._tpSettingsX.Controls.Add(this._grpActionX);
 			this._tpSettingsX.Controls.Add(this._grpSettingsX);
+			resources.ApplyResources(this._tpSettingsX, "_tpSettingsX");
 			this._tpSettingsX.Name = "_tpSettingsX";
 			this._tpSettingsX.UseVisualStyleBackColor = true;
 			// 
 			// _grpActionX
 			// 
-			resources.ApplyResources(this._grpActionX, "_grpActionX");
 			this._grpActionX.Controls.Add(this._radBigMouseX);
 			this._grpActionX.Controls.Add(this._radCenterMouseX);
 			this._grpActionX.Controls.Add(this._radNoneX);
+			resources.ApplyResources(this._grpActionX, "_grpActionX");
 			this._grpActionX.Name = "_grpActionX";
 			this._grpActionX.TabStop = false;
 			// 
@@ -194,7 +204,6 @@
 			// 
 			// _grpSettingsX
 			// 
-			resources.ApplyResources(this._grpSettingsX, "_grpSettingsX");
 			this._grpSettingsX.Controls.Add(this._lblCooldownX);
 			this._grpSettingsX.Controls.Add(this._lblCooldownXL);
 			this._grpSettingsX.Controls.Add(this._tbCooldownX);
@@ -207,6 +216,7 @@
 			this._grpSettingsX.Controls.Add(this._lblDirectionChangeXL);
 			this._grpSettingsX.Controls.Add(this._tbDirectionChangeX);
 			this._grpSettingsX.Controls.Add(this._lblDirectionChangeXR);
+			resources.ApplyResources(this._grpSettingsX, "_grpSettingsX");
 			this._grpSettingsX.Name = "_grpSettingsX";
 			this._grpSettingsX.TabStop = false;
 			// 
@@ -257,18 +267,18 @@
 			// 
 			// tpSettingsY
 			// 
-			resources.ApplyResources(this.tpSettingsY, "tpSettingsY");
 			this.tpSettingsY.Controls.Add(this._grpActionY);
 			this.tpSettingsY.Controls.Add(this._grpSettingsY);
+			resources.ApplyResources(this.tpSettingsY, "tpSettingsY");
 			this.tpSettingsY.Name = "tpSettingsY";
 			this.tpSettingsY.UseVisualStyleBackColor = true;
 			// 
 			// _grpActionY
 			// 
-			resources.ApplyResources(this._grpActionY, "_grpActionY");
 			this._grpActionY.Controls.Add(this._radBigMouseY);
 			this._grpActionY.Controls.Add(this._radCenterMouseY);
 			this._grpActionY.Controls.Add(this._radNoneY);
+			resources.ApplyResources(this._grpActionY, "_grpActionY");
 			this._grpActionY.Name = "_grpActionY";
 			this._grpActionY.TabStop = false;
 			// 
@@ -298,7 +308,6 @@
 			// 
 			// _grpSettingsY
 			// 
-			resources.ApplyResources(this._grpSettingsY, "_grpSettingsY");
 			this._grpSettingsY.Controls.Add(this._lblCooldownY);
 			this._grpSettingsY.Controls.Add(this._lblCooldownYL);
 			this._grpSettingsY.Controls.Add(this._tbCooldownY);
@@ -311,6 +320,7 @@
 			this._grpSettingsY.Controls.Add(this._lblDirectionChangeYL);
 			this._grpSettingsY.Controls.Add(this._tbDirectionChangeY);
 			this._grpSettingsY.Controls.Add(this._lblDirectionChangeYR);
+			resources.ApplyResources(this._grpSettingsY, "_grpSettingsY");
 			this._grpSettingsY.Name = "_grpSettingsY";
 			this._grpSettingsY.TabStop = false;
 			// 
@@ -393,31 +403,26 @@
 			resources.ApplyResources(this._lblDirectionChangeYR, "_lblDirectionChangeYR");
 			this._lblDirectionChangeYR.Name = "_lblDirectionChangeYR";
 			// 
-			// _tbIncrease
+			// _tbGraduallyEnlarge
 			// 
-			resources.ApplyResources(this._tbIncrease, "_tbIncrease");
-			this._tbIncrease.LargeChange = 8;
-			this._tbIncrease.Maximum = 64;
-			this._tbIncrease.Minimum = 8;
-			this._tbIncrease.Name = "_tbIncrease";
-			this._tbIncrease.TickFrequency = 0;
-			this._tbIncrease.TickStyle = System.Windows.Forms.TickStyle.None;
-			this._tbIncrease.Value = 8;
+			resources.ApplyResources(this._tbGraduallyEnlarge, "_tbGraduallyEnlarge");
+			this._tbGraduallyEnlarge.LargeChange = 8;
+			this._tbGraduallyEnlarge.Maximum = 64;
+			this._tbGraduallyEnlarge.Minimum = 8;
+			this._tbGraduallyEnlarge.Name = "_tbGraduallyEnlarge";
+			this._tbGraduallyEnlarge.TickFrequency = 0;
+			this._tbGraduallyEnlarge.TickStyle = System.Windows.Forms.TickStyle.None;
+			this._tbGraduallyEnlarge.Value = 8;
 			// 
-			// _lblBigMouse
+			// _lblGraduallyEnlargeL
 			// 
-			resources.ApplyResources(this._lblBigMouse, "_lblBigMouse");
-			this._lblBigMouse.Name = "_lblBigMouse";
+			resources.ApplyResources(this._lblGraduallyEnlargeL, "_lblGraduallyEnlargeL");
+			this._lblGraduallyEnlargeL.Name = "_lblGraduallyEnlargeL";
 			// 
-			// _lblBigMouseL
+			// _lblGraduallyEnlargeR
 			// 
-			resources.ApplyResources(this._lblBigMouseL, "_lblBigMouseL");
-			this._lblBigMouseL.Name = "_lblBigMouseL";
-			// 
-			// _lblBigMouseR
-			// 
-			resources.ApplyResources(this._lblBigMouseR, "_lblBigMouseR");
-			this._lblBigMouseR.Name = "_lblBigMouseR";
+			resources.ApplyResources(this._lblGraduallyEnlargeR, "_lblGraduallyEnlargeR");
+			this._lblGraduallyEnlargeR.Name = "_lblGraduallyEnlargeR";
 			// 
 			// _lblCheckX
 			// 
@@ -457,52 +462,113 @@
 			// 
 			// _grpMouseSettings
 			// 
+			this._grpMouseSettings.Controls.Add(this._pnlGraduallyEnlarge);
+			this._grpMouseSettings.Controls.Add(this._chkIgnoreButtonHeld);
+			this._grpMouseSettings.Controls.Add(this._chkGraduallyEnlarge);
+			this._grpMouseSettings.Controls.Add(this._chkGraduallyShirink);
+			this._grpMouseSettings.Controls.Add(this._pnlGraduallyShirink);
 			resources.ApplyResources(this._grpMouseSettings, "_grpMouseSettings");
-			this._grpMouseSettings.Controls.Add(this._lblBigMouse);
-			this._grpMouseSettings.Controls.Add(this._lblBigMouseL);
-			this._grpMouseSettings.Controls.Add(this._tbIncrease);
-			this._grpMouseSettings.Controls.Add(this._lblBigMouseR);
 			this._grpMouseSettings.Name = "_grpMouseSettings";
 			this._grpMouseSettings.TabStop = false;
 			// 
+			// _pnlGraduallyEnlarge
+			// 
+			this._pnlGraduallyEnlarge.Controls.Add(this._lblGraduallyEnlargeL);
+			this._pnlGraduallyEnlarge.Controls.Add(this._tbGraduallyEnlarge);
+			this._pnlGraduallyEnlarge.Controls.Add(this._lblGraduallyEnlargeR);
+			resources.ApplyResources(this._pnlGraduallyEnlarge, "_pnlGraduallyEnlarge");
+			this._pnlGraduallyEnlarge.Name = "_pnlGraduallyEnlarge";
+			// 
+			// _chkIgnoreButtonHeld
+			// 
+			this._chkIgnoreButtonHeld.AutoCheck = false;
+			resources.ApplyResources(this._chkIgnoreButtonHeld, "_chkIgnoreButtonHeld");
+			this._chkIgnoreButtonHeld.Name = "_chkIgnoreButtonHeld";
+			this._chkIgnoreButtonHeld.UseVisualStyleBackColor = true;
+			this._chkIgnoreButtonHeld.CheckedChanged += new System.EventHandler(this._chkIgnoreButtonHeld_CheckedChanged);
+			this._chkIgnoreButtonHeld.Click += new System.EventHandler(this._chkAutoExec_Click);
+			// 
+			// _chkGraduallyEnlarge
+			// 
+			resources.ApplyResources(this._chkGraduallyEnlarge, "_chkGraduallyEnlarge");
+			this._chkGraduallyEnlarge.Name = "_chkGraduallyEnlarge";
+			this._chkGraduallyEnlarge.UseVisualStyleBackColor = true;
+			this._chkGraduallyEnlarge.CheckedChanged += new System.EventHandler(this._chkGraduallyEnlarge_CheckedChanged);
+			// 
+			// _chkGraduallyShirink
+			// 
+			resources.ApplyResources(this._chkGraduallyShirink, "_chkGraduallyShirink");
+			this._chkGraduallyShirink.Name = "_chkGraduallyShirink";
+			this._chkGraduallyShirink.UseVisualStyleBackColor = true;
+			this._chkGraduallyShirink.CheckedChanged += new System.EventHandler(this._chkGraduallyShirink_CheckedChanged);
+			// 
+			// _pnlGraduallyShirink
+			// 
+			this._pnlGraduallyShirink.Controls.Add(this._lblGraduallyShirinkL);
+			this._pnlGraduallyShirink.Controls.Add(this._tbGraduallyShirink);
+			this._pnlGraduallyShirink.Controls.Add(this._lblGraduallyShirinkR);
+			resources.ApplyResources(this._pnlGraduallyShirink, "_pnlGraduallyShirink");
+			this._pnlGraduallyShirink.Name = "_pnlGraduallyShirink";
+			// 
+			// _lblGraduallyShirinkL
+			// 
+			resources.ApplyResources(this._lblGraduallyShirinkL, "_lblGraduallyShirinkL");
+			this._lblGraduallyShirinkL.Name = "_lblGraduallyShirinkL";
+			// 
+			// _tbGraduallyShirink
+			// 
+			resources.ApplyResources(this._tbGraduallyShirink, "_tbGraduallyShirink");
+			this._tbGraduallyShirink.LargeChange = 8;
+			this._tbGraduallyShirink.Maximum = 64;
+			this._tbGraduallyShirink.Minimum = 8;
+			this._tbGraduallyShirink.Name = "_tbGraduallyShirink";
+			this._tbGraduallyShirink.TickFrequency = 0;
+			this._tbGraduallyShirink.TickStyle = System.Windows.Forms.TickStyle.None;
+			this._tbGraduallyShirink.Value = 8;
+			// 
+			// _lblGraduallyShirinkR
+			// 
+			resources.ApplyResources(this._lblGraduallyShirinkR, "_lblGraduallyShirinkR");
+			this._lblGraduallyShirinkR.Name = "_lblGraduallyShirinkR";
+			// 
 			// _chkAutoExec
 			// 
-			resources.ApplyResources(this._chkAutoExec, "_chkAutoExec");
 			this._chkAutoExec.AutoCheck = false;
+			resources.ApplyResources(this._chkAutoExec, "_chkAutoExec");
 			this._chkAutoExec.Name = "_chkAutoExec";
 			this._chkAutoExec.UseVisualStyleBackColor = true;
 			this._chkAutoExec.Click += new System.EventHandler(this._chkAutoExec_Click);
 			// 
 			// _niTray
 			// 
-			resources.ApplyResources(this._niTray, "_niTray");
 			this._niTray.ContextMenuStrip = this._cmsTray;
+			resources.ApplyResources(this._niTray, "_niTray");
 			this._niTray.DoubleClick += new System.EventHandler(this._niTray_DoubleClick);
 			// 
 			// _cmsTray
 			// 
-			resources.ApplyResources(this._cmsTray, "_cmsTray");
 			this._cmsTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this._tsmiSettings,
             this.toolStripSeparator1,
             this._tsmiExit});
 			this._cmsTray.Name = "_cmsTray";
+			resources.ApplyResources(this._cmsTray, "_cmsTray");
 			// 
 			// _tsmiSettings
 			// 
-			resources.ApplyResources(this._tsmiSettings, "_tsmiSettings");
 			this._tsmiSettings.Name = "_tsmiSettings";
+			resources.ApplyResources(this._tsmiSettings, "_tsmiSettings");
 			this._tsmiSettings.Click += new System.EventHandler(this._tsmiSettings_Click);
 			// 
 			// toolStripSeparator1
 			// 
-			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
 			// 
 			// _tsmiExit
 			// 
-			resources.ApplyResources(this._tsmiExit, "_tsmiExit");
 			this._tsmiExit.Name = "_tsmiExit";
+			resources.ApplyResources(this._tsmiExit, "_tsmiExit");
 			this._tsmiExit.Click += new System.EventHandler(this._tsmiExit_Click);
 			// 
 			// MainForm
@@ -542,9 +608,12 @@
 			((System.ComponentModel.ISupportInitialize)(this._tbCooldownY)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._tbDistanceY)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this._tbDirectionChangeY)).EndInit();
-			((System.ComponentModel.ISupportInitialize)(this._tbIncrease)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this._tbGraduallyEnlarge)).EndInit();
 			this._grpMouseSettings.ResumeLayout(false);
 			this._grpMouseSettings.PerformLayout();
+			this._pnlGraduallyEnlarge.ResumeLayout(false);
+			this._pnlGraduallyShirink.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this._tbGraduallyShirink)).EndInit();
 			this._cmsTray.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -590,10 +659,9 @@
 		private System.Windows.Forms.RadioButton _radBigMouseY;
 		private System.Windows.Forms.RadioButton _radNoneY;
 		private System.Windows.Forms.RadioButton _radCenterMouseY;
-		private System.Windows.Forms.TrackBar _tbIncrease;
-		private System.Windows.Forms.Label _lblBigMouse;
-		private System.Windows.Forms.Label _lblBigMouseL;
-		private System.Windows.Forms.Label _lblBigMouseR;
+		private System.Windows.Forms.TrackBar _tbGraduallyEnlarge;
+		private System.Windows.Forms.Label _lblGraduallyEnlargeL;
+		private System.Windows.Forms.Label _lblGraduallyEnlargeR;
 		private System.Windows.Forms.Label _lblCheckX;
 		private System.Windows.Forms.Label _lblCheckY;
 		private System.Windows.Forms.Label _lblValueX;
@@ -608,6 +676,14 @@
 		private System.Windows.Forms.ToolStripMenuItem _tsmiSettings;
 		private System.Windows.Forms.ToolStripMenuItem _tsmiExit;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.CheckBox _chkGraduallyShirink;
+		private System.Windows.Forms.Label _lblGraduallyShirinkL;
+		private System.Windows.Forms.TrackBar _tbGraduallyShirink;
+		private System.Windows.Forms.Label _lblGraduallyShirinkR;
+		private System.Windows.Forms.Panel _pnlGraduallyShirink;
+		private System.Windows.Forms.CheckBox _chkGraduallyEnlarge;
+		private System.Windows.Forms.Panel _pnlGraduallyEnlarge;
+		private System.Windows.Forms.CheckBox _chkIgnoreButtonHeld;
 	}
 }
 
